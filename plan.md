@@ -30,15 +30,15 @@
 - [x] Commit semántico (`chore: initialize laravel 12 inertia vue3 tailwind stack and execution plan`) y `git push` a `git@github.com:anfresitoo/reservas-creadores.git`.
 
 ### Fase 2: Modelado de Base de Datos, Migraciones, Modelos con UUID y Seeders
-- [ ] Crear migraciones con índices optimizados y soporte de `uuid`:
+- [x] Crear migraciones con índices optimizados y soporte de `uuid`:
   - `users` (`uuid`, `username`, `bio`, `avatar_url`, `timezone`).
   - `session_types` (`uuid`, `user_id`, `title`, `slug`, `description`, `duration_minutes`, `is_active`).
   - `availabilities` (`uuid`, `user_id`, `day_of_week`, `start_time`, `end_time`, `is_enabled`).
   - `availability_exceptions` (`uuid`, `user_id`, `exception_date`, `is_available`, `start_time`, `end_time`, `reason`).
   - `bookings` (`uuid`, `creator_id`, `session_type_id`, `guest_name`, `guest_email`, `guest_timezone`, `notes`, `start_at_utc`, `end_at_utc`, `status`).
-- [ ] Implementar Modelos Eloquent con `uuid` y relaciones tipadas.
-- [ ] Crear `DatabaseSeeder` con datos reales de prueba para el creador (`America/Santiago`), sesiones 1-a-1 y disponibilidad.
-- [ ] Commit semántico (`feat(database): add migrations, uuid models and seeders for creator bookings`) y `git push`.
+- [x] Implementar Modelos Eloquent con `uuid` y relaciones tipadas.
+- [x] Crear `DatabaseSeeder` con datos reales de prueba para el creador (`America/Santiago`), sesiones 1-a-1 y disponibilidad.
+- [x] Commit semántico (`feat(database): add migrations, uuid models and seeders for creator bookings`) y `git push`.
 
 ### Fase 3: Capa de Dominio Modular (`Services`, `Actions`, `Events`, `UTC` & Bloqueo Pesimista)
 - [ ] Implementar `App\Services\TimezoneService` para conversión bidireccional entre el timezone del creador, UTC y el timezone del seguidor.
@@ -72,3 +72,4 @@
   - Excepciones de calendario y CRUD de tipos de sesión.
 - [ ] Documentar el proyecto y su arquitectura en `README.md`.
 - [ ] Commit semántico (`test(bookings): add UTC timezone, overlap prevention and event feature tests with docs`) y `git push`.
+
