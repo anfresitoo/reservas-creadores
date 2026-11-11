@@ -1,59 +1,123 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# eSponsor Reservas — Sistema de Reservas 1 a 1 para Creadores (MVP)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema de reservas de sesiones 1 a 1 para creadores construido como **Monolito Modular (*Microservice-ready*)** con **Laravel 12, Vue 3 (`<script setup>`), Inertia.js, Tailwind CSS y MySQL**.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Stack Tecnológico
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Backend**: PHP 8.3+ / Laravel 12
+- **Frontend**: Vue 3 (`<script setup>`) + Inertia.js + Vite
+- **Estilos / UI**: Tailwind CSS v4 (100% responsivo)
+- **Base de Datos**: MySQL 8+ (con bloqueo pesimista `SELECT ... FOR UPDATE`)
+- **Control de Versiones**: Git & GitHub (`git@github.com:anfresitoo/reservas-creadores.git`)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Arquitectura del Proyecto (Monolito Modular)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+El proyecto desacopla completamente la capa HTTP de las reglas de negocio para facilitar su evolución y eventual extracción a microservicios:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```text
+app/
+├── Actions/
+│   ├── Booking/
+│   │   ├── CreateBookingAction.php              # Transacción atómica + lockForUpdate() + evento BookingCreated
+│   │   └── CancelBookingAction.php              # Cancelación y liberación inmediata del bloque en UTC
+│   └── Creator/
+│       ├── UpsertSessionTypeAction.php          # Crear/editar tipos de sesión 1 a 1
+│       ├── DeleteSessionTypeAction.php          # Eliminar tipo de sesión
+│       ├── UpdateWeeklyScheduleAction.php       # Actualizar horario semanal + timezone local
+│       ├── UpsertAvailabilityExceptionAction.php# Crear/editar excepción por fecha específica
+│       └── DeleteAvailabilityExceptionAction.php# Eliminar excepción de fecha
+├── Events/
+│   └── BookingCreated.php                       # Evento de dominio disparado tras confirmar una reserva
+├── Listeners/
+│   └── LogBookingCreatedNotification.php        # Listener desacoplado (listo para emails/webhooks/colas)
+├── Services/
+│   ├── TimezoneService.php                      # Conversión bidireccional Creador TZ <-> UTC <-> Seguidor TZ
+│   ├── AvailabilityService.php                  # Cálculo de bloques libres en UTC y validación de solapamientos
+│   └── CreatorResolverService.php               # Resolución del perfil del creador activo
+├── Models/
+│   ├── Concerns/HasPublicUuid.php               # UUIDv7 automático y route binding público por uuid
+│   ├── User.php
+│   ├── SessionType.php
+│   ├── Availability.php
+│   ├── AvailabilityException.php
+│   └── Booking.php
+└── Http/
+    ├── Controllers/
+    │   ├── Creator/                             # Controladores delgados del Dashboard privado
+    │   └── PublicBookingController.php          # Controlador delgado de la vista pública del seguidor
+    └── Requests/                                # FormRequests de validación desacoplada
+```
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Reglas Críticas Implementadas
 
-### Premium Partners
+### 1. Zonas Horarias en UTC (`start_at_utc`, `end_at_utc`)
+- **Creador**: Configura su horario semanal (`availabilities`) y excepciones (`availability_exceptions`) en su propia zona horaria local (ej. `America/Santiago`).
+- **Seguidor**: Al abrir `/@{username}`, el sistema detecta automáticamente la zona horaria de su navegador (`Intl.DateTimeFormat().resolvedOptions().timeZone`) o le permite elegir cualquier zona horaria IANA (ej. `Europe/Madrid`, `America/Mexico_City`, `Asia/Tokyo`), mostrando todos los bloques convertidos automáticamente desde UTC.
+- **Persistencia y Validación**: Todas las reservas en la tabla `bookings` se almacenan y validan estrictamente en **UTC** (`start_at_utc`, `end_at_utc`).
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 2. Prevención de *Race Conditions* con Bloqueo Pesimista
+En `App\Actions\Booking\CreateBookingAction`:
+1. Se abre una transacción `DB::transaction()`.
+2. Se bloquea de forma pesimista el registro del creador (`User::whereKey($creator->id)->lockForUpdate()->firstOrFail()`) para serializar intentos concurrentes sobre su agenda.
+3. Se valida que el rango `[start_at_utc, end_at_utc]` pertenezca a una ventana válida de disponibilidad del creador (`AvailabilityService::isSlotWithinCreatorSchedule`).
+4. Se ejecuta una consulta con `lockForUpdate()` sobre `bookings` verificando que no exista ninguna reserva confirmada donde `start_at_utc < $endAtUtc` y `end_at_utc > $startAtUtc`.
+5. Se persiste la reserva en UTC y se despacha `BookingCreated` dentro de `DB::afterCommit()`.
 
-## Contributing
+### 3. Vistas Implementadas
+1. **Panel Privado del Creador (`/dashboard`)**:
+   - Resumen de KPIs y enlace directo a la página pública.
+   - **Reservas Pendientes / Próximas**: detalle con hora local del creador, hora local del seguidor, marca exacta en UTC y botón para cancelar/liberar el bloque.
+   - **CRUD de Tipos de Sesión 1 a 1**: creación, edición (nombre/tipo, duración en minutos, descripción breve, estado activo/pausado) y eliminación.
+   - **Horario Semanal y Excepciones**: configuración de Lunes a Domingo en el timezone del creador y bloqueos o rangos especiales para fechas específicas.
+2. **Página Pública del Seguidor (`/@{username}`, ej. `/@alex-dev`)**:
+   - Accesible sin cuenta.
+   - Selección de tipo de sesión, selector de zona horaria local, calendario interactivo y confirmación instantánea.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## Instalación y Uso Local
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+1. **Instalar dependencias**:
+   ```bash
+   composer install
+   npm install
+   ```
 
-## Security Vulnerabilities
+2. **Configurar variables de entorno**:
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+   Configura las credenciales de tu base de datos MySQL en `.env`:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=esponsor_reservas
+   DB_USERNAME=root
+   DB_PASSWORD=tu_password
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+3. **Ejecutar migraciones y seeders**:
+   ```bash
+   php artisan migrate --seed
+   ```
 
-## License
+4. **Compilar assets e iniciar el servidor**:
+   ```bash
+   npm run build
+   php artisan serve
+   ```
+   - **Dashboard del Creador**: `http://localhost:8000/dashboard`
+   - **Página Pública del Seguidor**: `http://localhost:8000/@alex-dev`
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+5. **Ejecutar pruebas automatizadas**:
+   ```bash
+   php artisan test
+   ```

@@ -503,3 +503,4 @@ function submitBooking() {
         </main>
     </div>
 </template>
+

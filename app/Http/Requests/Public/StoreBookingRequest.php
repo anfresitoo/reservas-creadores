@@ -42,3 +42,4 @@ class StoreBookingRequest extends FormRequest
         ];
     }
 }
+

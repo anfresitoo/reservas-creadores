@@ -65,11 +65,11 @@
 - [x] Commit semántico (`feat(public-booking): implement public follower booking view with local timezone conversion`) y `git push`.
 
 ### Fase 6: Pruebas Automatizadas (Feature & Unit Tests) y Documentación Final
-- [ ] Implementar suite de pruebas en `tests/Feature/BookingFlowTest.php` verificando:
+- [x] Implementar suite de pruebas en `tests/Feature/BookingFlowTest.php` verificando:
   - Conversión entre zonas horarias (`America/Santiago` ↔ `UTC` ↔ `Europe/Madrid` / `America/Mexico_City`).
   - Prevención de colisiones y bloqueo de slots reservados (`start_at_utc`, `end_at_utc`).
   - Disparo del evento `BookingCreated`.
   - Excepciones de calendario y CRUD de tipos de sesión.
-- [ ] Documentar el proyecto y su arquitectura en `README.md`.
-- [ ] Commit semántico (`test(bookings): add UTC timezone, overlap prevention and event feature tests with docs`) y `git push`.
+- [x] Documentar el proyecto y su arquitectura en `README.md`.
+- [x] Commit semántico (`test(bookings): add UTC timezone, overlap prevention and event feature tests with docs`) y `git push`.
 

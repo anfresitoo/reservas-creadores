@@ -152,3 +152,4 @@ class PublicBookingController extends Controller
             ]);
     }
 }
+
