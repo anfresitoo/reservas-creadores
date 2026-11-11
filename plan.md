@@ -41,12 +41,12 @@
 - [x] Commit semántico (`feat(database): add migrations, uuid models and seeders for creator bookings`) y `git push`.
 
 ### Fase 3: Capa de Dominio Modular (`Services`, `Actions`, `Events`, `UTC` & Bloqueo Pesimista)
-- [ ] Implementar `App\Services\TimezoneService` para conversión bidireccional entre el timezone del creador, UTC y el timezone del seguidor.
-- [ ] Implementar `App\Services\AvailabilityService` para cálculo de slots disponibles en UTC descontando excepciones y reservas confirmadas.
-- [ ] Implementar `App\Actions\Booking\CreateBookingAction` con `DB::transaction()` y `lockForUpdate()` (bloqueo pesimista) validando `start_at_utc` y `end_at_utc`.
-- [ ] Implementar evento `App\Events\BookingCreated` y listener `App\Listeners\LogBookingCreatedNotification`.
-- [ ] Implementar Actions del Creador (`UpsertSessionTypeAction`, `DeleteSessionTypeAction`, `UpdateWeeklyScheduleAction`, `UpsertAvailabilityExceptionAction`, `DeleteAvailabilityExceptionAction`, `CancelBookingAction`).
-- [ ] Commit semántico (`feat(domain): implement UTC availability service, pessimistic booking action and BookingCreated event`) y `git push`.
+- [x] Implementar `App\Services\TimezoneService` para conversión bidireccional entre el timezone del creador, UTC y el timezone del seguidor.
+- [x] Implementar `App\Services\AvailabilityService` para cálculo de slots disponibles en UTC descontando excepciones y reservas confirmadas.
+- [x] Implementar `App\Actions\Booking\CreateBookingAction` con `DB::transaction()` y `lockForUpdate()` (bloqueo pesimista) validando `start_at_utc` y `end_at_utc`.
+- [x] Implementar evento `App\Events\BookingCreated` y listener `App\Listeners\LogBookingCreatedNotification`.
+- [x] Implementar Actions del Creador (`UpsertSessionTypeAction`, `DeleteSessionTypeAction`, `UpdateWeeklyScheduleAction`, `UpsertAvailabilityExceptionAction`, `DeleteAvailabilityExceptionAction`, `CancelBookingAction`).
+- [x] Commit semántico (`feat(domain): implement UTC availability service, pessimistic booking action and BookingCreated event`) y `git push`.
 
 ### Fase 4: Controladores Delegados y Panel Privado del Creador (Vista 1)
 - [ ] Implementar `FormRequests` y controladores delegados para el Dashboard del creador.

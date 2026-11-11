@@ -26,3 +26,4 @@ trait HasPublicUuid
         return 'uuid';
     }
 }
+

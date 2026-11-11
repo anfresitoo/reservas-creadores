@@ -51,3 +51,4 @@ class Booking extends Model
         return $this->belongsTo(SessionType::class);
     }
 }
+
