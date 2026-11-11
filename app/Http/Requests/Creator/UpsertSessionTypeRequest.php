@@ -37,3 +37,4 @@ class UpsertSessionTypeRequest extends FormRequest
         ];
     }
 }
+

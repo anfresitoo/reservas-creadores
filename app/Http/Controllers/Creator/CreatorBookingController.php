@@ -23,3 +23,4 @@ class CreatorBookingController extends Controller
         return back()->with('success', 'La reserva ha sido cancelada y el bloque horario liberado.');
     }
 }
+

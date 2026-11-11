@@ -49,3 +49,4 @@ class ScheduleController extends Controller
         return back()->with('success', 'Excepción de fecha eliminada.');
     }
 }
+

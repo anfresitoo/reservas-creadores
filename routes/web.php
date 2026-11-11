@@ -4,6 +4,7 @@ use App\Http\Controllers\Creator\CreatorBookingController;
 use App\Http\Controllers\Creator\DashboardController;
 use App\Http\Controllers\Creator\ScheduleController;
 use App\Http\Controllers\Creator\SessionTypeController;
+use App\Http\Controllers\PublicBookingController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -30,3 +31,7 @@ Route::prefix('dashboard')->name('creator.')->group(function () {
     // Gestión de Reservas
     Route::patch('/bookings/{booking}/cancel', [CreatorBookingController::class, 'cancel'])->name('bookings.cancel');
 });
+
+// Vista Pública del Seguidor (Sin necesidad de cuenta)
+Route::get('/@{username}', [PublicBookingController::class, 'show'])->name('public.creator.show');
+Route::post('/@{username}/bookings', [PublicBookingController::class, 'store'])->name('public.creator.book');

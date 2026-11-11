@@ -817,3 +817,4 @@ function cancelBooking(booking) {
         </main>
     </div>
 </template>
+

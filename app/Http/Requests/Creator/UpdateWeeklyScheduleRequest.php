@@ -26,3 +26,4 @@ class UpdateWeeklyScheduleRequest extends FormRequest
         ];
     }
 }
+

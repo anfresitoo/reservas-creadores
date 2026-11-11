@@ -57,12 +57,12 @@
 - [x] Commit semántico (`feat(creator-dashboard): build creator dashboard UI and delegated CRUD controllers`) y `git push`.
 
 ### Fase 5: Vista Pública del Seguidor y Flujo de Reserva en Tiempo Real (Vista 2)
-- [ ] Implementar `PublicBookingController` delegado a `AvailabilityService` y `CreateBookingAction`.
-- [ ] Construir `resources/js/Pages/Public/CreatorProfile.vue` con Vue 3 (`<script setup>`) y Tailwind CSS:
+- [x] Implementar `PublicBookingController` delegado a `AvailabilityService` y `CreateBookingAction`.
+- [x] Construir `resources/js/Pages/Public/CreatorProfile.vue` con Vue 3 (`<script setup>`) y Tailwind CSS:
   - Visualización sin cuenta de los tipos de sesión del creador.
   - Detección automática y selector de `timezone` del seguidor con conversión automática desde UTC.
   - Selección de fecha y hora disponible, formulario de reserva y bloqueo inmediato del horario para otros seguidores.
-- [ ] Commit semántico (`feat(public-booking): implement public follower booking view with local timezone conversion`) y `git push`.
+- [x] Commit semántico (`feat(public-booking): implement public follower booking view with local timezone conversion`) y `git push`.
 
 ### Fase 6: Pruebas Automatizadas (Feature & Unit Tests) y Documentación Final
 - [ ] Implementar suite de pruebas en `tests/Feature/BookingFlowTest.php` verificando:

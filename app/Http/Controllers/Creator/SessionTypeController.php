@@ -48,3 +48,4 @@ class SessionTypeController extends Controller
         return back()->with('success', 'Tipo de sesión eliminado.');
     }
 }
+
