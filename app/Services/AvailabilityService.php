@@ -269,3 +269,4 @@ class AvailabilityService
         return false;
     }
 }
+

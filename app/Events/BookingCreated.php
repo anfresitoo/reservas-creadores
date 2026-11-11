@@ -15,3 +15,4 @@ class BookingCreated
         public readonly Booking $booking
     ) {}
 }
+

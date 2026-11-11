@@ -19,3 +19,4 @@ class DeleteSessionTypeAction
         $sessionType->delete();
     }
 }
+

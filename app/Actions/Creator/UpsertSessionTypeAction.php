@@ -50,3 +50,4 @@ class UpsertSessionTypeAction
         return $creator->sessionTypes()->create($payload);
     }
 }
+

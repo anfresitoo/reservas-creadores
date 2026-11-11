@@ -49,12 +49,12 @@
 - [x] Commit semántico (`feat(domain): implement UTC availability service, pessimistic booking action and BookingCreated event`) y `git push`.
 
 ### Fase 4: Controladores Delegados y Panel Privado del Creador (Vista 1)
-- [ ] Implementar `FormRequests` y controladores delegados para el Dashboard del creador.
-- [ ] Construir `resources/js/Pages/Creator/Dashboard.vue` con Vue 3 (`<script setup>`) y Tailwind CSS:
+- [x] Implementar `FormRequests` y controladores delegados para el Dashboard del creador.
+- [x] Construir `resources/js/Pages/Creator/Dashboard.vue` con Vue 3 (`<script setup>`) y Tailwind CSS:
   - CRUD de tipos de sesión (tipo/título, tiempo/duración, descripción breve, estado).
   - Listado de reservas pendientes/próximas con hora local del creador + UTC + opción de cancelar.
   - Configuración de horario semanal en el timezone del creador y excepciones por fecha específica.
-- [ ] Commit semántico (`feat(creator-dashboard): build creator dashboard UI and delegated CRUD controllers`) y `git push`.
+- [x] Commit semántico (`feat(creator-dashboard): build creator dashboard UI and delegated CRUD controllers`) y `git push`.
 
 ### Fase 5: Vista Pública del Seguidor y Flujo de Reserva en Tiempo Real (Vista 2)
 - [ ] Implementar `PublicBookingController` delegado a `AvailabilityService` y `CreateBookingAction`.

@@ -30,3 +30,4 @@ class CreatorResolverService
         return $creator;
     }
 }
+
